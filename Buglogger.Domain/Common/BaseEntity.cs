@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace Buglogger.Domain.Common
 {
@@ -10,6 +7,6 @@ namespace Buglogger.Domain.Common
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public Guid Id { get; set; }
+        public long Id { get; set; }
     }
 }

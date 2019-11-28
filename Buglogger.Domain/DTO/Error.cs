@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Buglogger.Domain.DTO
+﻿namespace Buglogger.Domain.DTO
 {
     public sealed class Error
     {

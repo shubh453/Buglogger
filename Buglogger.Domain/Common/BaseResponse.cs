@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Buglogger.Domain.Common
+﻿namespace Buglogger.Domain.Common
 {
     public abstract class BaseResponse
     {

@@ -1,7 +1,5 @@
 ﻿using Buglogger.Application.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Buglogger.Infrastructure.Services
 {

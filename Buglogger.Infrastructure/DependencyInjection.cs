@@ -11,23 +11,27 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
 
 namespace Buglogger.Infrastructure
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services,
-                                                           IConfiguration configuration,
-                                                           IWebHostEnvironment environment)
+        public static IServiceCollection AddInfrastructure(
+            this IServiceCollection services,
+            IConfiguration configuration,
+            IWebHostEnvironment environment)
         {
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(
                     configuration.GetConnectionString("DefaultConnection"),
                     b => b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)));
+
+            services.AddScoped<IAppDbContext>(provider => provider.GetService<AppDbContext>());
+
+            services.AddDefaultIdentity<ApplicationUser>()
+                .AddEntityFrameworkStores<AppDbContext>();
 
             if (environment.IsEnvironment("Test"))
             {
@@ -36,21 +40,21 @@ namespace Buglogger.Infrastructure
                     {
                         options.Clients.Add(new Client
                         {
-                            ClientId = "CleanArchitecture.IntegrationTests",
+                            ClientId = "Buglogger.IntegrationTests",
                             AllowedGrantTypes = { GrantType.ResourceOwnerPassword },
                             ClientSecrets = { new Secret("secret".Sha256()) },
-                            AllowedScopes = { "CleanArchitecture.WebUIAPI", "openid", "profile" }
+                            AllowedScopes = { "Buglogger.Api", "openid", "profile" }
                         });
                     }).AddTestUsers(new List<TestUser>
                     {
                         new TestUser
                         {
                             SubjectId = "f26da293-02fb-4c90-be75-e4aa51e0bb17",
-                            Username = "jason@clean-architecture",
-                            Password = "CleanArchitecture!",
+                            Username = "shubham@buglogger.in",
+                            Password = "Buglogger1!",
                             Claims = new List<Claim>
                             {
-                                new Claim(JwtClaimTypes.Email, "jason@clean-architecture")
+                                new Claim(JwtClaimTypes.Email, "shubham@buglogger.in")
                             }
                         }
                     });
@@ -59,13 +63,13 @@ namespace Buglogger.Infrastructure
             {
                 services.AddIdentityServer()
                     .AddApiAuthorization<ApplicationUser, AppDbContext>();
-
+                
+                services.AddTransient<IIdentityService, IdentityService>();
                 services.AddTransient<IDateTime, DateTimeService>();
             }
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();
-
 
             return services;
         }
