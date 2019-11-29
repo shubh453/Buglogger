@@ -1,5 +1,7 @@
 ﻿using Buglogger.Api.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Buglogger.Api.Controllers
 {
@@ -7,9 +9,26 @@ namespace Buglogger.Api.Controllers
     [ApiController]
     public class AccountController : BaseController
     {
-        public string[] Get()
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Login(LoginCommand command)
         {
-            return new[] { "value1", "value2" };
+            var response = await Mediator.Send(command);
+            return Ok(response);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Register(RegisterCommand command)
+        {
+            var response = await Mediator.Send(command);
+            return Ok(response);
+        }
+
+        [Authorize("ApiUser")]
+        [HttpGet("[action]")]
+        public async Task<IActionResult> Protected()
+        {
+            await Mediator.Send(new DeleteQuery());
+            return NoContent();
         }
     }
 }

@@ -16,4 +16,9 @@
     <ProjectReference Include="..\Buglogger.Domain\Buglogger.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Auth\Register\Command\" />
+    <Folder Include="Auth\Register\Response\" />
+  </ItemGroup>
+
 </Project>

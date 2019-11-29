@@ -49,7 +49,10 @@ namespace Buglogger.Api
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
-
+            services.AddCors(corsOptions =>
+            {
+                corsOptions.AddPolicy("fully permissive", configurePolicy => configurePolicy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials());
+            });
             services.AddOpenApiDocument(configure =>
             {
                 configure.Title = "Buglogger API";
