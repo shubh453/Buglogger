@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Buglogger.Api.Abstract;
-using Microsoft.AspNetCore.Http;
+﻿using Buglogger.Api.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Buglogger.Api.Controllers
@@ -12,6 +7,9 @@ namespace Buglogger.Api.Controllers
     [ApiController]
     public class AccountController : BaseController
     {
-
+        public string[] Get()
+        {
+            return new[] { "value1", "value2" };
+        }
     }
 }

@@ -63,7 +63,7 @@ namespace Buglogger.Infrastructure
             {
                 services.AddIdentityServer()
                     .AddApiAuthorization<ApplicationUser, AppDbContext>();
-                
+
                 services.AddTransient<IIdentityService, IdentityService>();
                 services.AddTransient<IDateTime, DateTimeService>();
             }
